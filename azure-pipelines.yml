@@ -19,9 +19,9 @@ steps:
   displayName: 'create new app'
   inputs:
     connectionType: 'OpenShift Connection Service'
-    openshiftService: 'Openshift'
+    openshiftService: 'OpenShift'
     version: '4.12.0'
-    cmd: 'oc new-app --image-stream="openshift/dotnet:7.0" https://github.com/spatel7838/WebHello.git#master --name=WebHello'
+    cmd: 'oc new-app --image-stream="openshift/dotnet:7.0" https://github.com/spatel7838/WebHello#master --name=WebHello'
     #cmd: 'oc new-app sanju333/aspapp:$(Build.BuildId) --name=<app-name>'		#If docker Image is used for deployment
     ignoreFlag: true
 
@@ -29,7 +29,7 @@ steps:
   displayName: 'create service'
   inputs:
     connectionType: 'OpenShift Connection Service'
-    openshiftService: 'Openshift'
+    openshiftService: 'OpenShift'
     version: '4.12.0'
     cmd: 'oc expose svc/testapp'
     ignoreFlag: true
@@ -38,7 +38,7 @@ steps:
   displayName: 'Start new build'
   inputs:
     connectionType: 'OpenShift Connection Service'
-    openshiftService: 'Openshift'
+    openshiftService: 'OpenShift'
     version: '4.12.0'
     cmd: 'oc start-build testapp --follow'
 
