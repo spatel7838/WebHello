@@ -1,0 +1,44 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+
+- task: Docker@2			#if Docker Image is used for deployment
+  displayName: docker_build_push
+  inputs:
+    containerRegistry: 'DockerHub'         #DockerHub Service Connection
+    repository: sajaybpatel/testapp
+    command: 'buildAndPush'
+    Dockerfile: 'Dockerfile'
+    tags: '$(Build.BuildId)'
+
+- task: oc-cmd@3
+  displayName: 'create new app'
+  inputs:
+    connectionType: 'OpenShift Connection Service'
+    openshiftService: 'Openshift'
+    version: '4.12.0'
+    cmd: 'oc new-app --image-stream="openshift/dotnet:7.0" https://github.com/spatel7838/WebHello.git#master --name=WebHello'
+    #cmd: 'oc new-app sanju333/aspapp:$(Build.BuildId) --name=<app-name>'		#If docker Image is used for deployment
+    ignoreFlag: true
+
+- task: oc-cmd@3
+  displayName: 'create service'
+  inputs:
+    connectionType: 'OpenShift Connection Service'
+    openshiftService: 'Openshift'
+    version: '4.12.0'
+    cmd: 'oc expose svc/testapp'
+    ignoreFlag: true
+
+- task: oc-cmd@3
+  displayName: 'Start new build'
+  inputs:
+    connectionType: 'OpenShift Connection Service'
+    openshiftService: 'Openshift'
+    version: '4.12.0'
+    cmd: 'oc start-build testapp --follow'
+
