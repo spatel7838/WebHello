@@ -1,5 +1,5 @@
 trigger:
-- main
+- master
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -12,7 +12,7 @@ steps:
     connectionType: 'OpenShift Connection Service'
     openshiftService: 'OpenShift'
     version: '4.12.0'
-    cmd: 'oc new-app --image-stream="openshift/dotnet:7.0" https://github.com/spatel7838/WebHello#master --name=WebHello'
+    cmd: 'oc new-app --image-stream="openshift/dotnet:7.0" https://github.com/spatel7838/WebHello --name=testapp'
     #cmd: 'oc new-app sanju333/aspapp:$(Build.BuildId) --name=<app-name>'		#If docker Image is used for deployment
     ignoreFlag: true
 
