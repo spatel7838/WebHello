@@ -6,15 +6,6 @@ pool:
 
 steps:
 
-- task: Docker@2			#if Docker Image is used for deployment
-  displayName: docker_build_push
-  inputs:
-    containerRegistry: 'DockerHub'         #DockerHub Service Connection
-    repository: sajaybpatel/testapp
-    command: 'buildAndPush'
-    Dockerfile: 'Dockerfile'
-    tags: '$(Build.BuildId)'
-
 - task: oc-cmd@3
   displayName: 'create new app'
   inputs:
